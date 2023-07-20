@@ -9,7 +9,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
       child: Row(
@@ -59,9 +58,23 @@ class MyApp extends StatelessWidget {
     );
 
     return MaterialApp(
-
       title: 'Flutter UI demo',
       home: Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              onPressed: (){},
+              icon: Icon(
+                Icons.sailing,
+                color: Colors.black,
+              ),
+            ),
+            IconButton(
+              onPressed: () => {},
+              icon: Icon(Icons.radar),
+            ),
+          ],
+        ),
         body: ListView(
           children: [
             Image.asset(
@@ -113,16 +126,15 @@ class _FavouriteWidgetState extends State<FavouriteWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          child: IconButton(
-            icon: (_isFavourited ? const Icon(Icons.star): const Icon(Icons.star_border)),
-            onPressed: _toggleFavourite,
-          )
-        ),
+            child: IconButton(
+          icon: (_isFavourited
+              ? const Icon(Icons.star)
+              : const Icon(Icons.star_border)),
+          onPressed: _toggleFavourite,
+        )),
         SizedBox(
           width: 18,
-          child: SizedBox(
-            child: Text('$_favouriteCount')
-          ),
+          child: SizedBox(child: Text('$_favouriteCount')),
         ),
       ],
     );
@@ -140,3 +152,5 @@ class _FavouriteWidgetState extends State<FavouriteWidget> {
     });
   }
 }
+
+
