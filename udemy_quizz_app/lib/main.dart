@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:udemy_quizz_app/question.dart';
 import 'package:udemy_quizz_app/quiz_brain.dart';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,8 +30,7 @@ class QuizSection extends StatefulWidget {
 }
 
 class _QuizSectionState extends State<QuizSection> {
-
-  int current = 0;
+  int correct = 0;
 
   List<Widget> scoreKeeper = [];
 
@@ -40,7 +38,6 @@ class _QuizSectionState extends State<QuizSection> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,10 +45,11 @@ class _QuizSectionState extends State<QuizSection> {
         Expanded(
           flex: 5,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20),
             child: Center(
               child: Text(
                 quizBrain.getQuestion(),
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -65,19 +63,13 @@ class _QuizSectionState extends State<QuizSection> {
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
               onPressed: () {
-                setState(() {
-                  quizBrain.getCorrectAnswer() ? correct() : incorrect();
-                });
-                quizBrain.nextQuestion();
+                checkAnswer(true);
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green)),
               child: Text(
                 'True',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white
-                ),
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),
           ),
@@ -87,10 +79,7 @@ class _QuizSectionState extends State<QuizSection> {
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
               onPressed: () {
-                setState(() {
-                  quizBrain.getCorrectAnswer()? incorrect(): correct();
-                });
-                quizBrain.nextQuestion();
+                checkAnswer(false);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
@@ -109,12 +98,42 @@ class _QuizSectionState extends State<QuizSection> {
     );
   }
 
-  void correct() {
-    scoreKeeper.add(Icon(Icons.check, color: Colors.green,));
-  }
-  
-  incorrect(){
-    scoreKeeper.add(Icon(Icons.close, color: Colors.red,));
-  }
+  void checkAnswer(bool userPickedAnswer) {
+    setState(() {
+      if (quizBrain.getCorrectAnswer() == userPickedAnswer) {
+        scoreKeeper.add(Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+        correct++;
+      } else {
+        scoreKeeper.add(Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
 
+      if (quizBrain.isFinished()) {
+        quizBrain.resetGame();
+        int countOfQuestions = quizBrain.countTheQuestions();
+        if ((correct / countOfQuestions) < 0.5) {
+          Alert(
+                  context: context,
+                  title: '$correct / $countOfQuestions',
+                  desc: "Need some practice!")
+              .show();
+        }else{
+          Alert(
+              context: context,
+              title: '$correct / $countOfQuestions',
+              desc: "Good job!")
+              .show();
+        }
+
+        scoreKeeper.clear();
+        correct=0;
+      } else
+        quizBrain.nextQuestion();
+    });
+  }
 }
