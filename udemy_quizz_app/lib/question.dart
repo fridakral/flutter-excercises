@@ -1,10 +1,7 @@
 class Question{
 
-  late String question;
-  late bool answer;
+  String question;
+  bool answer;
 
-  Question(String q, bool a){
-    question = q;
-    answer = a;
-  }
+  Question(this.question, this.answer);
 }
