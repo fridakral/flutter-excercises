@@ -27,6 +27,7 @@ class StoryPage extends StatefulWidget {
 class _StoryPageState extends State<StoryPage> {
   StoryBrain storyBrain = StoryBrain();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +51,11 @@ class _StoryPageState extends State<StoryPage> {
               )),
               Expanded(
                 child: TextButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    setState(() {
+                      storyBrain.nextStory(1);
+                    });
+                  },
                   child: Text(
                     storyBrain.getChoice1(),
                     style: TextStyle(
@@ -63,22 +68,34 @@ class _StoryPageState extends State<StoryPage> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 20.0,
+              ),
               Expanded(
-                child: TextButton(
-                  onPressed: (){},
-                  child: Text(
-                    storyBrain.getChoice2(),
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white
+                child: Visibility(
+                  visible: storyBrain.buttonShouldBeVisible(),
+                  child: TextButton(
+                    onPressed: (){
+                      setState(() {
+                        storyBrain.nextStory(2);
+                      });
+                    },
+                    child: Text(
+                      storyBrain.getChoice2(),
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white
+                      ),
                     ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    ),
                   ),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              )
             ],
           ),
         ),
