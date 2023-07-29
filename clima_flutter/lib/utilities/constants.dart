@@ -11,6 +11,7 @@ const kMessageTextStyle = TextStyle(
 );
 
 const kButtonTextStyle = TextStyle(
+  color: Colors.white,
   fontSize: 30.0,
   fontFamily: 'Spartan MB',
 );
