@@ -14,7 +14,6 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-
   int temp = 0;
   String weatherIcon = '';
   String city = '';
@@ -24,12 +23,18 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   void initState() {
-
     updateUI(widget.locationWeather);
   }
 
-  void updateUI(dynamic weatherData){
+  void updateUI(dynamic weatherData) {
     setState(() {
+      if (weatherData == null) {
+        temp = 0;
+        city = 'Sorry..';
+        weatherIcon = ':/';
+        description = 'Error!';
+      }
+
       double tempDouble = weatherData['main']['temp'];
       temp = tempDouble.round();
       int condition = weatherData['weather'][0]['id'];
@@ -38,7 +43,6 @@ class _LocationScreenState extends State<LocationScreen> {
       weatherIcon = weatherModel.getWeatherIcon(condition);
       description = weatherModel.getMessage(temp);
     });
-
   }
 
   @override
@@ -74,8 +78,16 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context){return CityScreen();}));
+                    onPressed: () async {
+                      var typedCityName = await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return CityScreen();
+                        }),
+                      );
+                      if(typedCityName!=null){
+                        updateUI(await weatherModel.getCityWeather(typedCityName));
+                      }
                     },
                     child: Icon(
                       Icons.location_city,
@@ -112,8 +124,7 @@ class _LocationScreenState extends State<LocationScreen> {
           ),
         ),
       ),
-    );;
+    );
+    ;
   }
-
-
 }
