@@ -1,0 +1,4 @@
+#Wed Aug 16 18:23:40 CEST 2023
+base.0=D\:\\Documents\\GitHub\\flutter-excercises\\nevjegyzek_app\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
