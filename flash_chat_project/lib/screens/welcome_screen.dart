@@ -1,6 +1,10 @@
+import 'package:flash_chat_project/constants.dart';
 import 'package:flash_chat_project/screens/login_screen.dart';
 import 'package:flash_chat_project/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+
+import '../components/rounded_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -11,8 +15,8 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin{
-
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation animation;
 
@@ -21,18 +25,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
-
+      duration: Duration(seconds: 3),
     );
 
-    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white).animate(controller);
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
     //animation= CurvedAnimation(parent: controller, curve: Curves.decelerate);
     controller.forward();
 
     controller.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -61,58 +63,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                     height: 60,
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 45,
-                    fontWeight: FontWeight.w900,
-                  ),
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Flash Chat',
+                      textStyle: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 45,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      speed: Duration(milliseconds: 300)
+                    ),
+                  ],
+                  totalRepeatCount: 1,
                 ),
               ],
             ),
             SizedBox(
               height: 48,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30),
-                child: MaterialButton(
-                  onPressed: (){
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200,
-                  height: 42,
-                  child: Text(
-                    'Log In'
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30),
-                child: MaterialButton(
-                  onPressed: (){
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200,
-                  height: 42,
-                  child: Text(
-                    'Register'
-                  ),
-                ),
-              ),
-            ),
+            RoundedButton(color: kLoginButtonColor, title: 'Log In', onPressed: () {
+              Navigator.pushNamed(context, LoginScreen.id);
+            }),
+            RoundedButton(color: kRegisterButtonColor, title: 'Register', onPressed: (){Navigator.pushNamed(context, RegistrationScreen.id);}),
           ],
         ),
       ),
     );
   }
 }
+
+
