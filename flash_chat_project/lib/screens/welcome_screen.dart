@@ -23,6 +23,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   void initState() {
     super.initState();
+
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 3),
@@ -85,6 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 48,
             ),
             RoundedButton(color: kLoginButtonColor, title: 'Log In', onPressed: () {
+              print(DateTime.now());
               Navigator.pushNamed(context, LoginScreen.id);
             }),
             RoundedButton(color: kRegisterButtonColor, title: 'Register', onPressed: (){Navigator.pushNamed(context, RegistrationScreen.id);}),
